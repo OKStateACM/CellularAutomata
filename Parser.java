@@ -3,9 +3,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Parser {
-	public Parser(){
-	}
-	public char[][] load(String filename){
+	// note that this method is static, so we don't have to initialize a new Parser to use this function.
+	public static char[][] load(String filename){
 		File file = new File(filename);
 		FileReader reader = null;
 		char[] contents = null; //we don't know how big it well be yet, so just declare the variable, don't allocate.
