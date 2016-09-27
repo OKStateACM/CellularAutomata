@@ -10,10 +10,13 @@ public class Map {
 	}
 	public String toString(){
 		StringBuilder str = new StringBuilder();
-		for (int xi = 0; xi<self.x; xi++) {
-			for (int yi = 0; yi<self.y; yi++) {
-				
-		str.append()
-		return "hooray";
+		for (int yi = 0; yi<this.y; yi++) {
+			for (int xi = 0; xi<this.x; xi++) {
+				char c = this.map[xi][yi];
+				str.append(c);
+			}
+			str.append("\n");
+		}
+		return str.toString();
 	}
 }
