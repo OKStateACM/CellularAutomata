@@ -53,6 +53,7 @@ public class Parser {
 			char c = contents[i];
 			if( c == '\n' ){	//don't copy newlines, but increment our row counter when we encounter them
 				y++;
+				x=0;            //again, need to reset to first column
 			} else if (c != '\r') {	//don't copy carriage returns because windows in stupid.
 				map[x][y] = c;	// copy the value into the map
 				x++;          	// and move to the next column
