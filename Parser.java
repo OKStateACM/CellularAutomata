@@ -41,7 +41,7 @@ public class Parser {
 			}
 		}
 		//test if the last row ended with a newline. If it did not, then we need to add the last row.
-		if( contents[ size-1 ] == '\n' || contents[ size-1 ] == '\r' ){
+		if( contents[ size-1 ] != '\n' && contents[ size-1 ] != '\r' ){
 			maxY++;
 		}
 
