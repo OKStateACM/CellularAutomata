@@ -35,6 +35,7 @@ public class Parser {
 			if(contents[i] == '\n'){
 				maxY++;                      //we found a newline, so we have another row.
 				maxX = Math.max(curX, maxX); //take the greater value of the two options for # of columns
+				curX = 0;                    //need to reset to the first column
 			} else if (contents[i] != '\r') {
 				curX++;                      //for each character that is not a newline, increase the number of columns in this row
 			}
