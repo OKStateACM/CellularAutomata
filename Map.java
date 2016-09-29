@@ -27,6 +27,8 @@ public class Map {
 	public char get(int x, int y){
 		x=x%this.x;
 		y=y%this.y;
+		if (x<0) {x=this.x+x;}
+		if (y<0) {y=this.y+y;}
 		return this.map[x][y];
 	}
 	/** Set a cell at x,y position to a certain value

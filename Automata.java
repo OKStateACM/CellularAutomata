@@ -1,5 +1,7 @@
 public class Automata {
 	Map map;
+	char alive = 'o';
+	char dead = '.';
 
 	/** Constructor
 	 */
@@ -10,7 +12,7 @@ public class Automata {
 	 * @param x x position in the map of where we are centered
 	 * @param y y position in the map of where we are centered
 	 */
-	private neighbors(int x, int y){
+	private int neighbors(int x, int y){
 		int count = 0;
 		for (int xi=x-1; xi<=x+1; xi++){
 			for (int yi=y-1; yi<=y+1; yi++){
@@ -22,20 +24,21 @@ public class Automata {
 		if (this.map.get(x,y) == this.alive){
 			count--;
 		}
+		return count;
 	}
 	/** Simulate one round of the automata
 	 */
 	public void step(){
-		Map nextGeneration = new Map(new char[this.map.x][this.map.y])
+		Map nextGeneration = new Map(new char[this.map.x][this.map.y]);
 		for (int xi=0; xi<this.map.x; xi++){
 			for (int yi=0; yi<this.map.y; yi++){
-				count = neighbors(xi, yi);
-				char currentState = this.map.get(xi,
-				char newState;
-				boolean isAlive = currentState==this.alive
+				int count = this.neighbors(xi, yi);
+				char currentState = this.map.get(xi, yi);
+				char newState=' ';
+				boolean isAlive = currentState==this.alive;
 				if (isAlive && count<2){
 					newState = this.dead;
-				} else if (isDead && count>3){
+				} else if (!isAlive && count>3){
 					newState = this.alive;
 				} else {
 					newState = currentState;
