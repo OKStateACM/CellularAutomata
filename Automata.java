@@ -1,9 +1,10 @@
 public class Automata {
-	Map map;
-	char alive = 'o';
-	char dead = '.';
+	Map map; // stores the current state of the automaton grid
+	private static final char ALIVE = 'o'; // constant, readable representation of being alive/populated
+	private static final char DEAD = '.'; // constant, readable representation of being dead/unpopulated
 
-	/** Constructor
+	/** Constructs an automaton given a representation of the grid
+	 * @param map representation of the grid
 	 */
 	public Automata( Map map ){
 		this.map = map;
@@ -11,22 +12,23 @@ public class Automata {
 	/** Count the number of live neighbors
 	 * @param x x position in the map of where we are centered
 	 * @param y y position in the map of where we are centered
+	 * @return how many lives neighbors the cell (x,y) has
 	 */
 	private int neighbors(int x, int y){
 		int count = 0;
 		for (int xi=x-1; xi<=x+1; xi++){
 			for (int yi=y-1; yi<=y+1; yi++){
-				if (this.map.get(xi, yi) == this.alive){
+				if (this.map.get(xi, yi) == ALIVE){
 					count++;
 				}
 			}
 		}
-		if (this.map.get(x,y) == this.alive){
+		if (this.map.get(x,y) == ALIVE){
 			count--;
 		}
 		return count;
 	}
-	/** Simulate one round of the automata
+	/** Simulate one round of the automaton
 	 */
 	public void step(){
 		Map nextGeneration = new Map(new char[this.map.x][this.map.y]);
@@ -35,13 +37,13 @@ public class Automata {
 				int count = this.neighbors(xi, yi);
 				char currentState = this.map.get(xi, yi);
 				char newState=' ';
-				boolean isAlive = currentState==this.alive;
+				boolean isAlive = currentState==ALIVE;
 				if (isAlive && count<2){ //underpopulation
-					newState = this.dead;
+					newState = DEAD;
 				} else if (isAlive && count>3){ //over populated
-					newState = this.dead;
+					newState = DEAD;
 				} else if (!isAlive && count>2){ //growth!
-					newState = this.alive;
+					newState = ALIVE;
 				} else { //stay alive/dead
 					newState = currentState;
 				}
@@ -51,7 +53,8 @@ public class Automata {
 		}
 		this.map = nextGeneration;
 	}
-	/** Print friendly string
+	/** Gets a printable representation of the automaton (equivalent to the printable representation of the map)
+	 * @return the printable representation of the map
 	 */
 	public String toString(){
 		 return this.map.toString();
