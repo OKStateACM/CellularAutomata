@@ -36,13 +36,16 @@ public class Automata {
 				char currentState = this.map.get(xi, yi);
 				char newState=' ';
 				boolean isAlive = currentState==this.alive;
-				if (isAlive && count<2){
+				if (isAlive && count<2){ //underpopulation
 					newState = this.dead;
-				} else if (!isAlive && count>3){
+				} else if (isAlive && count>3){ //over populated
+					newState = this.dead;
+				} else if (!isAlive && count>2){ //growth!
 					newState = this.alive;
-				} else {
+				} else { //stay alive/dead
 					newState = currentState;
 				}
+				//newState = new Integer(count).toString().charAt(0);
 				nextGeneration.set(xi, yi, newState);
 			}
 		}
