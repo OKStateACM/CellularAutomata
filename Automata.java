@@ -26,6 +26,24 @@ public class Automata {
 	/** Simulate one round of the automata
 	 */
 	public void step(){
+		Map nextGeneration = new Map(new char[this.map.x][this.map.y])
+		for (int xi=0; xi<this.map.x; xi++){
+			for (int yi=0; yi<this.map.y; yi++){
+				count = neighbors(xi, yi);
+				char currentState = this.map.get(xi,
+				char newState;
+				boolean isAlive = currentState==this.alive
+				if (isAlive && count<2){
+					newState = this.dead;
+				} else if (isDead && count>3){
+					newState = this.alive;
+				} else {
+					newState = currentState;
+				}
+				nextGeneration.set(xi, yi, newState);
+			}
+		}
+		this.map = nextGeneration;
 	}
 	/** Print friendly string
 	 */
