@@ -19,14 +19,23 @@ public class Map {
 	}
 
 	/** return the value in the cell given at x,y
+	 * Wraps around when we go outside the bounds of the array
+	 * (aka its a toroidal plane - see wikipedia entry on cellular automata)
 	 * @param x x coordinate of the cell
 	 * @param y y coordinate of the cwll
 	 */
 	public char get(int x, int y){
+		x=x%this.x;
+		y=y%this.y;
+		return this.map[x][y];
 	}
 	/** Set a cell at x,y position to a certain value
+	 * (does nothing for cells outside the bounds of our array)
 	 */
 	public void set(int x, int y, char cell){
+		if (x>=0 && x<this.x && y>=0 && y<this.y){
+			this.map[x][y] = cell;
+		}
 	}
 	/** Save the map to a text file
 	 * @param filename name of the file to save to
