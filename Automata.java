@@ -1,5 +1,4 @@
 public class Automata {
-
 	//declare class variables below. these can be acessed [optionally] using
 	//'this'. ex) `this.map=...`   or just    `map=...`
 	//for clarity and simplicity, we use the `this` style for now.
@@ -15,11 +14,12 @@ public class Automata {
 	//		'.'. it might not make as much sense.
 	//	* minimal optimizations.
 
-	final char alive = 'o'; //character that represents a 'live' cell
-	final char dead = '.';  //character that represents a 'dead' cell
+	final char ALIVE = 'o'; //character that represents a 'live' cell
+	final char DEAD = '.';  //character that represents a 'dead' cell
 
 	/** Constructor. this is called when we use 'new'
-	 * @param map initial state
+	 * @param map representation of the grid
+	 * @return a new automaton system
 	 */
 	public Automata( Map map ){
 		this.map = map;
@@ -28,6 +28,7 @@ public class Automata {
 	/** Count the number of live neighbors
 	 * @param x x position in the map of where we are centered
 	 * @param y y position in the map of where we are centered
+	 * @return how many lives neighbors the cell (x,y) has
 	 */
 	private int neighbors(int x, int y){
 		int count = 0; //this will be a running total of 'alive'
@@ -39,7 +40,7 @@ public class Automata {
 		//include as a 'neighbor'. we will 'fix' this later.
 		for (int xi=x-1; xi<=x+1; xi++){ //iterate over our x range
 			for (int yi=y-1; yi<=y+1; yi++){ //iterate over our y
-				if (this.map.get(xi, yi) == this.alive){
+				if (this.map.get(xi, yi) == this.ALIVE){
 					count++; // if this neighbor is alive
 					         // then count it!
 				}
@@ -48,7 +49,7 @@ public class Automata {
 		//here is where we fix our error noted above.
 		//if the cell at (x,y) is dead, it wasn't counted anywahs, so no change.
 		//if it was alive, we 'overcounted' by exactly 1. so, remove it
-		if (this.map.get(x,y) == this.alive){
+		if (this.map.get(x,y) == this.ALIVE){
 			count--;
 		}
 
@@ -77,7 +78,7 @@ public class Automata {
 
 				//note this boolean: it will make our
 				//if statements much more readable later.
-				boolean isAlive = currentState==this.alive;
+				boolean isAlive = currentState==this.ALIVE;
 
 				//we call the neighbors() method to get the
 				//number of neighbors.
@@ -94,13 +95,13 @@ public class Automata {
 				int count = this.neighbors(xi, yi);
 
 				// here are our rules:
-				// this.alive/this.dead are constants.
+				// this.ALIVE/this.DEAD are constants.
 				if (isAlive && count<2){ //underpopulation
-					newState = this.dead;
+					newState = DEAD;
 				} else if (isAlive && count>3){ //over populated
-					newState = this.dead;
+					newState = DEAD;
 				} else if (!isAlive && count>2){ //growth!
-					newState = this.alive;
+					newState = ALIVE;
 				} else { //stay alive/dead
 					newState = currentState;
 				}
@@ -113,8 +114,8 @@ public class Automata {
 		// grid with our new one.
 		this.map = nextGeneration;
 	}
-
-	/** Print friendly string
+	/** Gets a printable representation of the automaton (equivalent to the printable representation of the map)
+	 * @return the printable representation of the map
 	 */
 	public String toString(){
 		 return this.map.toString();
